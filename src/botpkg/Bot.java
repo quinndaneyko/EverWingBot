@@ -32,9 +32,9 @@ public class Bot {
 	public static void restart(Robot robot) {
 		
 		//Some time to terminate Bot between games
-		System.out.println("Terminate Time: Started");
+		System.out.println("Termination Period: Started");
 	    try {Thread.sleep(5000); } catch (Exception e) {}
-	    System.out.println("Terminate Time: Over\nGame Starting");
+	    System.out.println("Termination Period: Ended\n\nGame Started");
 	    
 		//Play Again Button Click
 		robot.mouseMove(350, 930);
@@ -57,7 +57,7 @@ public class Bot {
 		Color playAgainColor = robot.getPixelColor(350, 930);
 		if ((levelUpColor.getRed() == 95 && levelUpColor.getGreen() == 229 && levelUpColor.getBlue() == 1) ||
 			playAgainColor.getRed() == 64 && playAgainColor.getGreen() == 128 && playAgainColor.getBlue() == 255) {
-			System.out.println("Game Has Ended");
+			System.out.println("Game Has Ended\n");
 			return true;
 		}
 		return false;
