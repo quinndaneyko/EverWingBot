@@ -18,39 +18,46 @@ public class Bot {
 		int rightCoord = 640;
 		int yCoord = 900;
 		
-		robot.mouseMove(420, 700);
 		robot.mousePress(InputEvent.BUTTON1_MASK);
-		try {Thread.sleep(100); } catch (Exception e) {}
-		robot.mouseRelease(InputEvent.BUTTON1_MASK);
-		
-		Color color = robot.getPixelColor(350, 930);
-		robot.mouseMove(450, 930);
-		robot.mousePress(InputEvent.BUTTON1_MASK);
-
-		//TODO: Read multiple points on play again to ensure match.
-		while (!checkForLevelUp(robot) && color.getRed() != 64 && color.getGreen() != 128 && color.getBlue() != 255){ 
+		while (!checkForNewGame(robot)){ 
 		    robot.mouseMove(leftCoord, yCoord);
 		    try {Thread.sleep(700); } catch (Exception e) {}
 		    robot.mouseMove(rightCoord, yCoord);
 		    try {Thread.sleep(700); } catch (Exception e) {}
-		    color = robot.getPixelColor(350, 930);
 		}
 		robot.mouseRelease(InputEvent.BUTTON1_MASK);
 		restart(robot);
 	}
 	
 	public static void restart(Robot robot) {
+		
+		//Some time to terminate Bot between games
+		System.out.println("Terminate Time: Started");
+	    try {Thread.sleep(5000); } catch (Exception e) {}
+	    System.out.println("Terminate Time: Over\nGame Starting");
+	    
+		//Play Again Button Click
 		robot.mouseMove(350, 930);
 		robot.mousePress(InputEvent.BUTTON1_MASK);
 		try {Thread.sleep(100); } catch (Exception e) {}
 		robot.mouseRelease(InputEvent.BUTTON1_MASK);
-	    try {Thread.sleep(3000); } catch (Exception e) {}
+	    
+		//Level Up Button Click
+		robot.mouseMove(420, 700);
+		robot.mousePress(InputEvent.BUTTON1_MASK);
+		try {Thread.sleep(100); } catch (Exception e) {}
+		robot.mouseRelease(InputEvent.BUTTON1_MASK);		
+	    
 		playGame(robot);
 	}
 	
-	public static boolean checkForLevelUp(Robot robot) {
-		Color color = robot.getPixelColor(420, 700);
-		if (color.getRed() == 95 && color.getGreen() == 229 && color.getBlue() == 1) {
+	//TODO: Read multiple points on play again to ensure match.
+	public static boolean checkForNewGame(Robot robot) {
+		Color levelUpColor = robot.getPixelColor(420, 700);
+		Color playAgainColor = robot.getPixelColor(350, 930);
+		if ((levelUpColor.getRed() == 95 && levelUpColor.getGreen() == 229 && levelUpColor.getBlue() == 1) ||
+			playAgainColor.getRed() == 64 && playAgainColor.getGreen() == 128 && playAgainColor.getBlue() == 255) {
+			System.out.println("Game Has Ended");
 			return true;
 		}
 		return false;
