@@ -17,13 +17,18 @@ public class Bot {
 		int leftCoord = 260;
 		int rightCoord = 640;
 		int yCoord = 900;
-
-		// Move the cursor
+		
+		robot.mouseMove(420, 700);
+		robot.mousePress(InputEvent.BUTTON1_MASK);
+		try {Thread.sleep(100); } catch (Exception e) {}
+		robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		
 		Color color = robot.getPixelColor(350, 930);
 		robot.mouseMove(450, 930);
 		robot.mousePress(InputEvent.BUTTON1_MASK);
 
-		while (color.getRed() != 64 && color.getGreen() != 128 && color.getBlue() != 255){ 
+		//TODO: Read multiple points on play again to ensure match.
+		while (!checkForLevelUp(robot) && color.getRed() != 64 && color.getGreen() != 128 && color.getBlue() != 255){ 
 		    robot.mouseMove(leftCoord, yCoord);
 		    try {Thread.sleep(700); } catch (Exception e) {}
 		    robot.mouseMove(rightCoord, yCoord);
@@ -41,6 +46,14 @@ public class Bot {
 		robot.mouseRelease(InputEvent.BUTTON1_MASK);
 	    try {Thread.sleep(3000); } catch (Exception e) {}
 		playGame(robot);
+	}
+	
+	public static boolean checkForLevelUp(Robot robot) {
+		Color color = robot.getPixelColor(420, 700);
+		if (color.getRed() == 95 && color.getGreen() == 229 && color.getBlue() == 1) {
+			return true;
+		}
+		return false;
 	}
 
 }
